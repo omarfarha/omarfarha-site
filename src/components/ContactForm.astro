@@ -1,0 +1,87 @@
+---
+export interface Props {
+  defaultInterest?: string;
+}
+const { defaultInterest = 'Coaching' } = Astro.props;
+const interests = ['Coaching', 'Consulting for my organization', 'The studio / reimagined', 'Something else'];
+---
+<form
+  class="contact-form"
+  id="contact-form"
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+>
+  <input type="hidden" name="form-name" value="contact" />
+  <p style="display:none;">
+    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+  </p>
+  <div class="field">
+    <label for="name">Name</label>
+    <input id="name" name="name" type="text" placeholder="Your name" required />
+  </div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" placeholder="you@email.com" required />
+  </div>
+  <div class="field full">
+    <label for="interest">I'm interested in</label>
+    <select id="interest" name="interest">
+      {interests.map((opt) => (
+        <option selected={opt === defaultInterest}>{opt}</option>
+      ))}
+    </select>
+  </div>
+  <div class="field full">
+    <label for="message">What do you want to accomplish?</label>
+    <textarea id="message" name="message" rows="4" placeholder="Describe your goals, challenges, situation..." required></textarea>
+  </div>
+  <div class="submit-row">
+    <button type="submit" class="btn-send">Send message</button>
+  </div>
+  <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  // Netlify's recommended AJAX submission pattern: POST url-encoded form
+  // data to "/" with the form-name field included, rather than doing a full
+  // page reload. Netlify's build-time form detection picks up the static
+  // <form data-netlify="true"> above automatically — no extra setup needed.
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+
+  function encode(data: Record<string, string>) {
+    return Object.keys(data)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!status) return;
+    status.textContent = 'Sending...';
+
+    const formData = new FormData(form);
+    const data: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      data[key] = String(value);
+    });
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode(data),
+      });
+      if (res.ok) {
+        status.textContent = "Thanks — I'll be in touch soon.";
+        form.reset();
+      } else {
+        status.textContent = 'Something went wrong. Please try again or email me directly.';
+      }
+    } catch {
+      status.textContent = 'Something went wrong. Please try again or email me directly.';
+    }
+  });
+</script>

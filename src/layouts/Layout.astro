@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+import ContactForm from '../components/ContactForm.astro';
+import { SHOW_ESSAYS } from '../site.config';
+
+export interface Props {
+  title: string;
+  description?: string;
+  active?: 'coaching' | 'consulting' | 'essays';
+  defaultInterest?: string;
+}
+
+const {
+  title,
+  description = 'Coach, strategy & design consultant, and founder of reimagined.',
+  active,
+  defaultInterest,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} — Omar Farha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,440;1,9..144,440;1,9..144,500&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+      Required so that Netlify Identity invite/confirmation email links
+      (which land on the homepage with a token) can complete the login
+      and hand off to the CMS at /admin.
+    -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <div class="wrap">
+        <a href="/" class="logo">Omar Farha</a>
+        <div class="navlinks">
+          <a href="/coaching" class={active === 'coaching' ? 'active' : ''}>Coaching</a>
+          <a href="/consulting" class={active === 'consulting' ? 'active' : ''}>Consulting</a>
+          <a href="https://reimagined.art" target="_blank">Studio</a>
+          {SHOW_ESSAYS && (
+            <a href="/essays" class={active === 'essays' ? 'active' : ''}>Essays</a>
+          )}
+        </div>
+      </div>
+    </nav>
+
+    <slot />
+
+    <footer id="contact">
+      <div class="wrap contact">
+        <h2>Let's talk.</h2>
+        <ContactForm defaultInterest={defaultInterest} />
+        <div class="footer-base wrap" style="padding-left:0; padding-right:0;">
+          <div>© {new Date().getFullYear()} Omar Farha</div>
+          <div>
+            <a href="https://reimagined.art" target="_blank">reimagined.art</a>
+            {SHOW_ESSAYS && (
+              <>
+                &nbsp;·&nbsp; <a href="/essays">Essays</a>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Completes the Netlify Identity login flow when someone arrives via
+      // an invite or password-recovery email link, then sends them to the CMS.
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', (user) => {
+          if (!user) {
+            window.netlifyIdentity.on('login', () => {
+              window.location.href = '/admin/';
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

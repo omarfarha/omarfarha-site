@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const essays = (await getCollection('essays', ({ data }) => data.published)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Layout title="Essays" active="essays">
+  <header class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Essays</div>
+      <h1>Notes on strategy, creativity, and the work of building things that last.</h1>
+      <p class="lede">An occasional series, including Profiles in Dreaming — first-person reflections drawn from other people's stories.</p>
+    </div>
+  </header>
+
+  <section class="essays">
+    <div class="wrap">
+      <ul class="essay-list" style="margin-top:40px;">
+        {essays.map((essay) => (
+          <li class="essay-item">
+            <time>{essay.data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</time>
+            <a href={`/essays/${essay.id}`}>
+              <div class="kicker">{essay.data.kicker}</div>
+              <h2>{essay.data.title}</h2>
+              {essay.data.dek && <p class="dek">{essay.data.dek}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+      {essays.length === 0 && (
+        <p style="color:var(--text-soft); font-size:16px;">Nothing published yet — check back soon.</p>
+      )}
+    </div>
+  </section>
+</Layout>

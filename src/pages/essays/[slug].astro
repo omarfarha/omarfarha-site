@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const essays = await getCollection('essays', ({ data }) => data.published);
+  return essays.map((essay) => ({
+    params: { slug: essay.id },
+    props: { essay },
+  }));
+}
+
+const { essay } = Astro.props;
+const { Content } = await render(essay);
+---
+
+<Layout title={essay.data.title} active="essays" description={essay.data.dek}>
+  <header class="article-header">
+    <div class="article-wrap">
+      <a href="/essays" class="back-link">← All essays</a>
+      <div class="meta-row">
+        <span class="kicker">{essay.data.kicker}</span>
+        <span>·</span>
+        <time>{essay.data.date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</time>
+      </div>
+      <h1>{essay.data.title}</h1>
+      {essay.data.dek && <p class="dek">{essay.data.dek}</p>}
+    </div>
+  </header>
+
+  <section class="article-body">
+    <div class="article-wrap">
+      <Content />
+      <div class="article-footer">
+        <a href="/essays">← All essays</a>
+        <a href="/#contact">Get in touch →</a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,82 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded images live in the repo, and the public URL they're served at.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - file: "src/content/pages/home.md"
+        label: "Home"
+        name: "home"
+        fields:
+          - { label: "Kicker (small line above headline)", name: "kicker", widget: "string" }
+          - { label: "Hero opening line", name: "heroOpening", widget: "string", hint: "Wrap a word in *asterisks* for italic emphasis." }
+          - label: "Practice lines"
+            name: "practiceLines"
+            widget: "list"
+            hint: "Each line can include a [link](/coaching) using standard markdown link syntax."
+            field: { label: "Line", name: "line", widget: "string" }
+          - { label: "Bio photo", name: "bioPhoto", widget: "image", required: false }
+          - { label: "Bio text", name: "body", widget: "markdown" }
+
+      - file: "src/content/pages/coaching.md"
+        label: "Coaching"
+        name: "coaching"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline", name: "heading", widget: "string" }
+          - { label: "Intro paragraph", name: "lede", widget: "text" }
+          - label: "Focus areas"
+            name: "focusAreas"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+          - { label: "Get started — heading", name: "getStartedHeading", widget: "string" }
+          - { label: "Get started — text", name: "getStartedText", widget: "text" }
+
+      - file: "src/content/pages/consulting.md"
+        label: "Consulting"
+        name: "consulting"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline", name: "heading", widget: "string" }
+          - { label: "Intro paragraph", name: "lede", widget: "text" }
+          - label: "Focus areas"
+            name: "focusAreas"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+          - { label: "Selected Work intro line", name: "workIntro", widget: "text" }
+
+  - name: "work"
+    label: "Selected Work (Consulting page)"
+    folder: "src/content/work"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project name", name: "title", widget: "string" }
+      - { label: "Tag (category label)", name: "tag", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Order (lower shows first)", name: "order", widget: "number", value_type: "int", default: 0 }
+      - { label: "Show on site", name: "visible", widget: "boolean", default: true }
+
+  - name: "essays"
+    label: "Essays"
+    folder: "src/content/essays"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Dek (one-line summary)", name: "dek", widget: "text", required: false }
+      - { label: "Series / kicker", name: "kicker", widget: "string", default: "Essay" }
+      - { label: "Date", name: "date", widget: "date" }
+      - { label: "Published (uncheck to keep as a draft)", name: "published", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }

@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getEntry, getCollection, render } from 'astro:content';
+import { marked } from 'marked';
+import { SHOW_ESSAYS } from '../site.config';
+
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('Missing pages/home.md content entry');
+
+const { Content } = await render(home);
+
+const heroOpeningHtml = home.data.heroOpening ? marked.parseInline(home.data.heroOpening) : '';
+const practiceLinesHtml = (home.data.practiceLines ?? []).map((line) => marked.parseInline(line));
+
+let latestEssay = null;
+if (SHOW_ESSAYS) {
+  const essays = await getCollection('essays', ({ data }) => data.published);
+  essays.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  latestEssay = essays[0] ?? null;
+}
+---
+
+<Layout title="Home">
+  <header class="hero">
+    <div class="wrap">
+      <p class="intro">
+        <Fragment set:html={heroOpeningHtml} />
+        {practiceLinesHtml.map((html) => (
+          <span class="practice-line" set:html={html} />
+        ))}
+      </p>
+    </div>
+  </header>
+
+  {SHOW_ESSAYS && latestEssay && (
+    <section class="essays">
+      <div class="wrap">
+        <div class="eyebrow">Writing</div>
+        <ul class="essay-list">
+          <li class="essay-item">
+            <time>{latestEssay.data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</time>
+            <a href={`/essays/${latestEssay.id}`}>
+              <h3>{latestEssay.data.title}</h3>
+              {latestEssay.data.dek && <p class="dek">{latestEssay.data.dek}</p>}
+            </a>
+          </li>
+        </ul>
+        <a href="/essays" class="view-all">View all essays →</a>
+      </div>
+    </section>
+  )}
+
+  <section class="bio">
+    <div class="wrap">
+      <div class="eyebrow">About</div>
+      <div class="grid">
+        <div class="photo">
+          {home.data.bioPhoto && <img src={home.data.bioPhoto} alt="Omar Farha" />}
+        </div>
+        <div>
+          <Content />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
