@@ -10,7 +10,7 @@ if (!home) throw new Error('Missing pages/home.md content entry');
 const { Content } = await render(home);
 
 const heroOpeningHtml = home.data.heroOpening ? marked.parseInline(home.data.heroOpening) : '';
-const practiceLinesHtml = (home.data.practiceLines ?? []).map((line) => marked.parseInline(line));
+const practiceLinesHtml = (home.data.practiceLines ?? []).map((line) => { const html = marked.parseInline(line) as string; return html.replace(/<a href="/g, '<a target="_blank" rel="noopener noreferrer" href="'); });
 
 let latestEssay = null;
 if (SHOW_ESSAYS) {
