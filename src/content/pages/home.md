@@ -7,6 +7,8 @@ practiceLines:
   - I advise businesses on [design, strategy, and product](/consulting).
   - I create [immersive digital art experiences](https://reimagined.art).
 bioPhoto: /images/omar-portrait.jpg
+metaDescription: Coach, strategy and design consultant, and founder of
+  reimagined, a digital art and experience design studio.
 ---
 I've built businesses, developed hardware and software, designed products, and managed teams spread around the world. I've advised artists and founders from multiple industries. I'm passionate about connecting with people and helping them unlock their potential.
 
