@@ -8,6 +8,7 @@ export interface Props {
   description?: string;
   active?: 'coaching' | 'consulting' | 'essays';
   defaultInterest?: string;
+  image?: string;
 }
 
 const {
@@ -15,7 +16,12 @@ const {
   description = 'Coach, strategy & design consultant, and founder of reimagined.',
   active,
   defaultInterest,
+  image = '/images/og-default.jpg',
 } = Astro.props;
+
+const siteUrl = Astro.site ?? Astro.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const ogImageUrl = new URL(image, siteUrl);
 ---
 
 <!DOCTYPE html>
@@ -24,9 +30,21 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / social share preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} — Omar Farha`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} — Omar Farha`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <title>{title} — Omar Farha</title>
-    <link rel="icon" href="/favicon.ico" sizes="any" /> 
-    <link rel="icon" href="/favicon.png" type="image/png" /> 
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
