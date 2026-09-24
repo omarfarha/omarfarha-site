@@ -37,6 +37,9 @@ const pages = defineCollection({
     // Get started block (coaching)
     getStartedHeading: z.string().optional(),
     getStartedText: z.string().optional(),
+
+    // SEO / social share description for this page (falls back to a site default if empty)
+    metaDescription: z.string().optional(),
   }),
 });
 
