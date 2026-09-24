@@ -15,7 +15,7 @@ const work = (await getCollection('work', ({ data }) => data.visible)).sort(
 );
 ---
 
-<Layout title="Consulting" active="consulting" defaultInterest="Consulting for my organization">
+<Layout title="Consulting" active="consulting" defaultInterest="Consulting for my organization" description={page.data.metaDescription}>
   <header class="page-hero">
     <div class="wrap">
       <div class="eyebrow">{page.data.eyebrow}</div>

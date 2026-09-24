@@ -10,7 +10,11 @@ if (!home) throw new Error('Missing pages/home.md content entry');
 const { Content } = await render(home);
 
 const heroOpeningHtml = home.data.heroOpening ? marked.parseInline(home.data.heroOpening) : '';
-const practiceLinesHtml = (home.data.practiceLines ?? []).map((line) => { const html = marked.parseInline(line) as string; return html.replace(/<a href="/g, '<a target="_blank" rel="noopener noreferrer" href="'); });
+const practiceLinesHtml = (home.data.practiceLines ?? []).map((line) => {
+  const html = marked.parseInline(line) as string;
+  // Open these links in a new tab, so the homepage stays open behind them.
+  return html.replace(/<a href="/g, '<a target="_blank" rel="noopener noreferrer" href="');
+});
 
 let latestEssay = null;
 if (SHOW_ESSAYS) {
@@ -20,7 +24,7 @@ if (SHOW_ESSAYS) {
 }
 ---
 
-<Layout title="Home">
+<Layout title="Coach, Advisor & Founder" description={home.data.metaDescription}>
   <header class="hero">
     <div class="wrap">
       <p class="intro">

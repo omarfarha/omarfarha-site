@@ -11,7 +11,7 @@ const ledeHtml = page.data.lede ? marked.parseInline(page.data.lede) : '';
 const focusAreas = page.data.focusAreas ?? [];
 ---
 
-<Layout title="Coaching" active="coaching" defaultInterest="Coaching">
+<Layout title="Coaching" active="coaching" defaultInterest="Coaching" description={page.data.metaDescription}>
   <header class="page-hero">
     <div class="wrap">
       <div class="eyebrow">{page.data.eyebrow}</div>
