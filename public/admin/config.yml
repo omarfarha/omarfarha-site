@@ -23,6 +23,7 @@ collections:
             field: { label: "Line", name: "line", widget: "string" }
           - { label: "Bio photo", name: "bioPhoto", widget: "image", required: false }
           - { label: "Bio text", name: "body", widget: "markdown" }
+          - { label: "Search & social preview description", name: "metaDescription", widget: "text", required: false, hint: "Shown in Google search results and when this page is shared as a link. Aim for 1–2 sentences." }
 
       - file: "src/content/pages/coaching.md"
         label: "Coaching"
@@ -39,6 +40,7 @@ collections:
               - { label: "Description", name: "description", widget: "text" }
           - { label: "Get started — heading", name: "getStartedHeading", widget: "string" }
           - { label: "Get started — text", name: "getStartedText", widget: "text" }
+          - { label: "Search & social preview description", name: "metaDescription", widget: "text", required: false, hint: "Shown in Google search results and when this page is shared as a link. Aim for 1–2 sentences." }
 
       - file: "src/content/pages/consulting.md"
         label: "Consulting"
@@ -54,6 +56,7 @@ collections:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Description", name: "description", widget: "text" }
           - { label: "Selected Work intro line", name: "workIntro", widget: "text" }
+          - { label: "Search & social preview description", name: "metaDescription", widget: "text", required: false, hint: "Shown in Google search results and when this page is shared as a link. Aim for 1–2 sentences." }
 
   - name: "work"
     label: "Selected Work (Consulting page)"
