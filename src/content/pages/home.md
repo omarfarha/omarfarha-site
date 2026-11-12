@@ -3,9 +3,9 @@ title: Home
 kicker: Coach · Advisor · Founder
 heroOpening: It's time to *reimagine* your world.
 practiceLines:
-  - I coach [artists and entrepreneurs](/coaching).
-  - I advise businesses on [design, strategy, and product](/consulting).
   - I create [immersive digital art experiences](https://reimagined.art).
+  - I advise businesses on [design, strategy, and product](/consulting).
+  - I coach [artists and entrepreneurs](/coaching).
 bioPhoto: /images/omar-portrait.jpg
 metaDescription: Coach, strategy and design consultant, and founder of
   reimagined, a digital art and experience design studio.
